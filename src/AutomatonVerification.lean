@@ -18,19 +18,19 @@ open char
 
 notation `string` := list char
 
-@[simp] def δ : char → state → list state
-| c0 q0 := [q0]
-| c0 q1 := [q2]
-| c0 q2 := [q3]
-| c0 q3 := []
-| c1 q0 := [q0, q1]
-| c1 q1 := [q2]
-| c1 q2 := [q3]
-| c1 q3 := []
+@[simp] def δ : state → char → list state
+| q0 c0 := [q0]
+| q1 c0 := [q2]
+| q2 c0 := [q3]
+| q3 c0 := []
+| q0 c1 := [q0, q1]
+| q1 c1 := [q2]
+| q2 c1 := [q3]
+| q3 c1 := []
 
 @[simp] def δδ : state → string → list state
 | q [] := [q]
-| q (c :: w') := (δ c q).bind (fun q', δδ q' w')
+| q (c :: w') := (δ q c).bind (fun q', δδ q' w')
 
 lemma δδ_correct_1 : ∀ (w : string) (a b : char), q3 ∈ δδ q0 (w ++ [c1, a, b]) :=
   begin
