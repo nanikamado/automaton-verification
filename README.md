@@ -1,4 +1,4 @@
-Verification of the following NFA:
+A verification of the following NFA in Lean.
 
 ![](fig.svg)
 
