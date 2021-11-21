@@ -1,6 +1,6 @@
 Verification of the following NFA:
 
-
+![](fig.svg)
 
 ## Build
 ```
