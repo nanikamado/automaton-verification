@@ -75,7 +75,7 @@ lemma δδ_correct_2 : ∀ w : string, q3 ∈ δδ q0 w → ∃ w' a b, w = w' +
     simp,
   end
 
-theorem δδ_correct : ∀ w : string, q3 ∈ δδ q0 w ↔ ∃ x a b, w = x ++ [c1, a, b] :=
+theorem δδ_correct : ∀ w : string, q3 ∈ δδ q0 w ↔ ∃ w' a b, w = w' ++ [c1, a, b] :=
   begin
     intros,
     split, {
