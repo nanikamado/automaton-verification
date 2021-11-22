@@ -1,6 +1,8 @@
-A verification of the following NFA in Lean.
+A proof that the following NFA works as intended.
 
 ![](fig.svg)
+
+The proof is written in Lean.
 
 ## Build
 ```
