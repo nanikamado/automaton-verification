@@ -36,8 +36,7 @@ lemma δδ_correct_1 : ∀ (w : string) (a b : char), q3 ∈ δδ q0 (w ++ [c1, 
   begin
     intros,
     induction w with c w', {
-      cases a,
-      all_goals { cases b, },
+      rcases ⟨a, b⟩ with ⟨_ | _, _ | _⟩,
       all_goals { simp, },
     },
     cases c,
@@ -47,26 +46,9 @@ lemma δδ_correct_1 : ∀ (w : string) (a b : char), q3 ∈ δδ q0 (w ++ [c1, 
 lemma q1_to_q3_2_inputs : ∀ w : string, q3 ∈ δδ q1 w → ∃ a b, w = [a, b] :=
   begin
     intros w h,
-    cases w with c w, {
-      simp at *,
-      tauto,
-    },
-    cases c,
-    all_goals {
-      simp at *,
-      cases w with a w, {
-        simp at *,
-        tauto,
-      },
-      cases a,
-      all_goals {
-        simp at *,
-        cases w with a w,
-        refl,
-        cases a,
-        all_goals { simp at *, tauto, },
-      },
-    },
+    rcases w with _ | ⟨_ | _, _ | ⟨_ | _, _ | ⟨_ | _ , w⟩⟩⟩,
+    all_goals { simp at *, },
+    all_goals { tauto, },
   end
 
 lemma δδ_correct_2 : ∀ w : string, q3 ∈ δδ q0 w → ∃ w' a b, w = w' ++ [c1, a, b] :=
@@ -78,20 +60,17 @@ lemma δδ_correct_2 : ∀ w : string, q3 ∈ δδ q0 w → ∃ w' a b, w = w' +
     },
     cases c, {
       simp at h,
-      rcases ih1 h with ⟨w', ⟨a, ⟨b, ih2⟩⟩⟩,
-      subst w,
+      rcases ih1 h with ⟨w', a, b, rfl⟩,
       existsi [c0 :: w', a, b],
-      simp, 
+      simp,
     },
     simp at h,
     cases h, {
-      rcases ih1 h with ⟨w', ⟨a, ⟨b, ih2⟩⟩⟩,
-      subst w,
+      rcases ih1 h with ⟨w', a, b, rfl⟩,
       existsi [c1 :: w', a, b],
-      simp, 
+      simp,
     },
-    rcases q1_to_q3_2_inputs w h with ⟨a, ⟨b, h2⟩⟩,
-    subst w,
+    rcases q1_to_q3_2_inputs w h with ⟨a, b, rfl⟩,
     existsi [[], a, b],
     simp,
   end
@@ -101,12 +80,10 @@ theorem δδ_correct : ∀ w : string, q3 ∈ δδ q0 w ↔ ∃ x a b, w = x ++ 
     intros,
     split, {
       apply δδ_correct_2,
-    }, {
-      intros h,
-      rcases h with ⟨x, ⟨a, ⟨b, h⟩⟩⟩,
-      subst w,
-      apply δδ_correct_1,
     },
+    intros h,
+    rcases h with ⟨x, a, b, rfl⟩,
+    apply δδ_correct_1,
   end
 
 end AutomatonVerification
